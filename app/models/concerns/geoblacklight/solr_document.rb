@@ -31,6 +31,10 @@ module Geoblacklight
       References.new(self)
     end
 
+    def relations
+      @relations ||= Relations.new(self)
+    end
+
     def direct_download
       references.download.to_hash unless references.download.blank?
     end

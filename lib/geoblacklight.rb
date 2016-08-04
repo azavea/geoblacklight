@@ -21,6 +21,7 @@ module Geoblacklight
   require 'geoblacklight/metadata'
   require 'geoblacklight/reference'
   require 'geoblacklight/references'
+  require 'geoblacklight/relations'
   require 'geoblacklight/routes'
 
   def self.inject!
