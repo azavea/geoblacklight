@@ -16,7 +16,7 @@
               <% end %>
           <% end %>
           <% unless @document.relations.descendants.blank? %>
-              <b><%= t('geoblacklight.relations.descendant') %> (<%= @document.relations.count[:descendants] %>)</b>
+              <b><%= t('geoblacklight.relations.descendant') %> (<%= @document.relations.descendants.count %>)</b>
               <% @document.relations.descendants[0..2].each do |descendant| %>
                   <li>
                     <%= link_to "#{Rails.application.config.relative_url_root}/catalog/#{descendant['layer_slug_s']}" do %>
@@ -25,10 +25,10 @@
                   </li>
               <% end %>
 
-              <% unless @document.relations.count[:descendants] <= 3 %>
+              <% unless @document.relations.descendants.count <= 3 %>
                   <li>
                     <%= link_to "#{root_url}#{@document.relations.search[:descendants]}" do %>
-                        <%= "Browse all #{@document.relations.count[:descendants]} items..." %>
+                        <%= "Browse all #{@document.relations.descendants.count} items..." %>
                     <% end %>
                   </li>
               <% end %>
