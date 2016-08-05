@@ -6,7 +6,7 @@ class RelationController < ApplicationController
   def ancestors
     respond_to do |format|
       format.json do
-        render json: {:response => find_ancestors}
+        render json: {:url => root_url, :response => find_ancestors}
       end
     end
   end
@@ -14,7 +14,7 @@ class RelationController < ApplicationController
   def descendants
     respond_to do |format|
       format.json do
-        render json: {:response => find_descendants}
+        render json: {:url => root_url, :shared_ancestor => params[:id], :response => find_descendants}
       end
     end
   end

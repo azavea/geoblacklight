@@ -1,14 +1,13 @@
 module Geoblacklight
   module Relation
     class Descendants
-
       def initialize(id, repository)
         @search_id = id
         @repository = repository
       end
 
       def create_search_params
-        { :fq => "#{Settings.FIELDS.SOURCE}:#{@search_id}", :fl => [Settings.FIELDS.TITLE, 'layer_slug_s'] }
+        { :fq => "#{Settings.FIELDS.SOURCE}:#{@search_id}", :fl => [Settings.FIELDS.TITLE, 'layer_slug_s'], :rows => 4 }
       end
 
       def execute_query
@@ -19,7 +18,6 @@ module Geoblacklight
         response = execute_query
         response['response']
       end
-
     end
   end
 end

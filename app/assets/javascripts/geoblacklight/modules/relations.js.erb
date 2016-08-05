@@ -1,0 +1,78 @@
+var setupDataRelations = function() {
+    $('#sidebar').append('<div class="panel panel-default show-tools" id="relation_tools"><div class="panel-heading">Data Relations</div><div class="panel-body"><ul class="nav"><div class="ancestor_links"></div><div class="descendant_links"></div></ul></div></div>');
+}
+
+var setupAncestorLinks = function(count) {
+    $('#relation_tools .nav').append('<b>Source Datasets (' + count + ')</b>');
+}
+
+var setupDescendantLinks = function(count) {
+    $('#relation_tools .nav').append('<b>Derived Datasets (' + count + ')</b>');
+}
+
+var populateAncestorLinks = function(title, slug, baseurl) {
+    $('#relation_tools .nav').append('<li><a href="' + urlify_record(baseurl, slug) +'"><span class="geoblacklight geoblacklight-relations-ancestor"> </span> ' + title + '</a></li>');
+}
+
+var populateDescendantLinks = function(title, slug, baseurl) {
+    $('#relation_tools .nav').append('<li><a href="' + urlify_record(baseurl, slug) +'"><span class="geoblacklight geoblacklight-relations-descendant"> </span> ' + title + '</a></li>');
+}
+
+var populateDescendantSearchLink = function(ancestor_slug, count, baseurl) {
+    $('#relation_tools .nav').append('<li><a href="' + urlify_search(baseurl, ancestor_slug) + '">Browse all ' + count + ' items...</a></li>');
+}
+
+var urlify_search = function(site_url, slug) {
+    return site_url + '?f[<%= Settings.FIELDS.SOURCE %>][]=' + slug
+}
+var urlify_record = function(site_url, slug) {
+    return site_url + 'catalog/' + slug;
+}
+
+var grab_document_url = function() {
+    var url = document.URL;
+    if (url[url.length - 1] == '/')
+        return url;
+    else {
+        return url + '/'
+    }
+}
+Blacklight.onLoad(function() {
+
+    $.ajax({
+        url: grab_document_url() + 'ancestors.json',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            if (data.response.numFound > 0) {
+                setupDataRelations();
+                setupAncestorLinks(data.response.numFound);
+                ancestors = data.response.docs
+                ancestor_count = data.response.numFound
+                site_url = data.url;
+                $.each(ancestors, function (i, obj) {
+                    populateAncestorLinks(obj.dc_title_s, obj.layer_slug_s, site_url);
+                })
+            }
+        }
+    })
+
+    $.ajax({
+        url: grab_document_url() + 'descendants.json',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            if (data.response.numFound > 0) {
+                setupDataRelations();
+                setupDescendantLinks(data.response.numFound);
+                descendants = data.response.docs;
+                descendant_count = data.response.numFound;
+                site_url = data.url;;
+                $.each(descendants, function (i, obj) {
+                    populateDescendantLinks(obj.dc_title_s, obj.layer_slug_s, site_url);
+                })
+                populateDescendantSearchLink(data.shared_ancestor, descendant_count, site_url);
+            }
+        }
+    })
+});
