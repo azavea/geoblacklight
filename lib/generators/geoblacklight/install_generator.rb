@@ -22,6 +22,10 @@ module Geoblacklight
             concerns :gbl_exportable
           end
 
+          concern :gbl_relation, Geoblacklight::Routes::Relation.new
+          get '/catalog/:id/ancestors' => 'relation#ancestors', as: :ancestors
+          get '/catalog/:id/descendants' => 'relation#descendants',as: :descendants
+
           concern :gbl_wms, Geoblacklight::Routes::Wms.new
           namespace :wms do
             concerns :gbl_wms

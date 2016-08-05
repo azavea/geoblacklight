@@ -32,7 +32,7 @@ module Geoblacklight
     end
 
     def relations
-      @relations ||= Relations.new(self)
+
     end
 
     def direct_download
