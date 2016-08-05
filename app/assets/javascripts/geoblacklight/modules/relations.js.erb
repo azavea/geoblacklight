@@ -1,5 +1,5 @@
 var setupDataRelations = function() {
-    $('#sidebar').append('<div class="panel panel-default show-tools" id="relation_tools"><div class="panel-heading">Data Relations</div><div class="panel-body"><ul class="nav"><div class="ancestor_links"></div><div class="descendant_links"></div></ul></div></div>');
+    $('#sidebar').append( $('<div class="panel panel-default show-tools" id="relation_tools"><div class="panel-heading">Data Relations</div><div class="panel-body"><ul class="nav"><div class="ancestor_links"></div><div class="descendant_links"></div></ul></div></div>').hide().fadeIn(200));
 }
 
 var setupAncestorLinks = function(count) {
