@@ -11,6 +11,7 @@ Blacklight.onLoad(function() {
   $('[data-map="index"]').each(function() {
     var data = $(this).data(),
     opts = { baseUrl: data.catalogPath },
+    scrollWheelZoom = data.mapScrollwheelzoom,
     geoblacklight, bbox;
 
     if (typeof data.mapBbox === 'string') {
@@ -35,7 +36,7 @@ Blacklight.onLoad(function() {
     }
 
     // instantiate new map
-    geoblacklight = new GeoBlacklight.Viewer.Map(this, { bbox: bbox });
+    geoblacklight = new GeoBlacklight.Viewer.Map(this, { bbox: bbox, scrollWheelZoom: scrollWheelZoom });
 
     // set hover listeners on map
     $('#content')
